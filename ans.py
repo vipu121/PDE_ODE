@@ -64,9 +64,10 @@ def g_trial_diff(x,parameters,A1):
     return NN(x,parameters)+x.T*NN_diff(W1,W2,A1)
 
 def cost_function(parameters,X,A1):
+    g=(g_trial(0,X,parameters)-phi(X,0).T)
     dN_dx = g_trial_diff(X, parameters, A1)
     f = func(X,parameters)
-    error_sq = (dN_dx - f) ** 2
+    error_sq = (dN_dx - f) **2 + g**2
     error_sq=np.sum(error_sq)
     return error_sq/len(X)
 def gradients(parameters,X,A1):
@@ -82,7 +83,7 @@ def gradients(parameters,X,A1):
     db1 /= len(X)
     return dW1,dW2,db1
 def solve_ode(X,num_iters=1000,lmb=0.0007,lmb2=0.00005,lmb3=0.0005):
-    (n_x, n_h, n_y) = 1, 20, 1
+    (n_x, n_h, n_y) = 1, 10, 1
     parameters=initialize_parameters(n_x, n_h, n_y)
     # print(parameters)
     for i in range(num_iters):
